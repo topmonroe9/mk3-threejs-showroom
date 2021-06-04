@@ -616,4 +616,21 @@ html {
   [hidden] {
     display: none;
   }
-  
+
+
+  .controls {
+    position: absolute;
+    top: 90vh;
+  }
+
+  .control-left {
+    left: 50px;
+  }
+
+  .control-right {
+    right: 50px;
+  }
+
+  .control-rocket {
+    left: 50%
+  }
