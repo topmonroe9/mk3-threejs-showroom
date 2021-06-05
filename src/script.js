@@ -180,7 +180,6 @@ gltfLoader.load(
         // model.scene.geom
 
         model.scene.rotateX(-Math.PI / 2);
-        model.scene.position.set(0, 1.501, 0)
         model.scene.translateX(1)
         model.scene.translateY(-1)
         scene.add(model.scene)
@@ -192,159 +191,62 @@ gltfLoader.load(
 
 // region Room
 /**
- * Main room floor
+ * Main Plane
  */
-const roomFloorMaterial = new THREE.MeshPhongMaterial(
-    {
-        map: marbleTilesBaseColorTexture,
-        normalMap: marbleTilesNormalTexture,
-        roughnessMap: marbleTilesRoughnessTexture,
-        aoMap: marbleTilesAmbientOcclusionTexture,
-        displacementMap: marbleTilesDisplacementTexture
-    })
-roomFloorMaterial.displacementScale = 0.15
 
-const roomFloorGeometry = new THREE.PlaneBufferGeometry(10, 10, 15, 15)
-const roomFloor = new THREE.Mesh(roomFloorGeometry, roomFloorMaterial)
-roomFloor.receiveShadow = true
-roomFloorGeometry.rotateX(-Math.PI / 2)
-scene.add(roomFloor)
 
-/**
- * Main room walls
- */
-const roomWallMaterial = new THREE.MeshPhongMaterial(
-    {
-        map: wallStoneBaseColorTexture,
-        normalMap: wallStoneNormalTexture,
-        roughnessMap: wallStoneRoughnessTexture,
-        aoMap: wallStoneAmbientOcclusionTexture,
-        displacementMap: wallStoneDisplacementTexture
-    })
-roomWallMaterial.displacementScale = 0.15
-roomWallMaterial.generateMipMaps = false
-wallStoneBaseColorTexture.minFilter = THREE.LinearFilter
-wallStoneBaseColorTexture.magFilter = THREE.LinearFilter
-const roomWallGeometry = new THREE.PlaneBufferGeometry(10, 5, 5, 5)
-const roomWall1 = new THREE.Mesh(roomWallGeometry, roomWallMaterial)
-roomWall1.position.set(
-    roomFloorGeometry.parameters.width / 2,
-    roomWallGeometry.parameters.height / 2,
-    0
-)
-roomWall1.rotateY(-Math.PI / 2)
-scene.add(roomWall1)
-
-const roomWall2 = new THREE.Mesh(roomWallGeometry, roomWallMaterial)
-roomWall2.position.set(
-    -roomFloorGeometry.parameters.width / 2,
-    roomWallGeometry.parameters.height / 2,
-    0
-)
-roomWall2.rotateY(Math.PI / 2)
-scene.add(roomWall2)
-
-const roomWall3 = new THREE.Mesh(roomWallGeometry, roomWallMaterial)
-roomWall3.position.set(
-    0,
-    roomWallGeometry.parameters.height / 2,
-    roomFloorGeometry.parameters.width / 2,
-)
-roomWall3.rotateY(Math.PI)
-scene.add(roomWall3)
-
-const roomWall4 = new THREE.Mesh(roomWallGeometry, roomWallMaterial)
-roomWall4.position.set(
-    0,
-    roomWallGeometry.parameters.height / 2,
-    -roomFloorGeometry.parameters.width / 2,
-)
-scene.add(roomWall4)
-
-/**
- * Table where model is placed
- */
-const roomTableMaterial = new THREE.MeshPhongMaterial(
-    {
-        // map: wallStoneBaseColorTexture,
-        // normalMap: wallStoneNormalTexture,
-        // roughnessMap: wallStoneRoughnessTexture,
-        // aoMap: wallStoneAmbientOcclusionTexture,
-        // displacementMap: wallStoneDisplacementTexture
-    })
-const tableGeometry = new THREE.CylinderBufferGeometry(2, 2, 1.5, 16, 1, true,)
-const table = new THREE.Mesh(tableGeometry, roomTableMaterial)
-table.material.side = THREE.DoubleSide
-table.position.set(0, tableGeometry.parameters.height / 2, 0)
-
-const tableFaceGeometry = new THREE.CircleBufferGeometry(2, 16)
-const tableFace = new THREE.Mesh(tableFaceGeometry, roomTableMaterial)
-tableFace.rotateX(Math.PI / 2)
-tableFace.position.set(0, tableGeometry.parameters.height, 0)
-tableGroup.add(tableFace, table)
-scene.add(tableGroup)
 //endregion
 
 //region Projects
 
-let projectsMenuOpened = false
 
-const menuMaterial = new THREE.MeshMatcapMaterial(
-    {matcap: marbleTexture})
-
-const projectsMenuGeometry = new THREE.OctahedronBufferGeometry(1, 0)
-const projectsMenu = new THREE.Mesh(projectsMenuGeometry, menuMaterial)
-projectsMenu.position.setY(2)
-projectsMenu.material.transparent = true
-projectsMenu.visible = false
-scene.add(projectsMenu)
 
 //endregion
 
 //region Animations
 
 const rocketBtn = document.querySelector('#rocket')
-rocketBtn.addEventListener('click', onRocketButtonClicked)
+// rocketBtn.addEventListener('click', onRocketButtonClicked)
 
-function onRocketButtonClicked() {
-        // projectsMenu.rotate= (Math.sin(2*Math.PI))
-        const from = new THREE.Vector3(0, 6, 0)
-        const target = new THREE.Vector3(0, 2, 0)
-        const scale = new THREE.Vector3(0.8, 0.8, 0.8)
-        const rotation = 10 * Math.PI
-    const animateMenu = gsap.timeline();
-    animateMenu.fromTo(projectsMenu.material,
-        {opacity: 0},
-        {opacity: 1, duration: 1},
-        0);
-    animateMenu.fromTo(projectsMenu.position,
-        {y: from.y},
-        {y: target.y, duration: 1},
-        0);
-    animateMenu.fromTo(projectsMenu.rotation,
-        {y: 0, duration: 1},
-        {y: rotation, duration: 1.2, ease: "elastic.out(1, 0.3)"},
-        0)
-    animateMenu.fromTo(tableGroup.position,
-        {y: 0}, {y: -1, duration: 1},
-        0)
-    animateMenu.fromTo(tableGroup.scale,
-        {x: 1, y: 1, z: 1},
-        {x: scale.x, y: scale.y, z: scale.z, duration: 1},
-        0)
-    if (projectsMenuOpened === false) {
-        // projectsMenu.material.opacity = 0.5
-       animateMenu.play()
-        projectsMenuOpened = true
-        projectsMenu.visible = true
-    }
-    else if (projectsMenuOpened === true) {
-        animateMenu.progress(1).reverse()
+// function onRocketButtonClicked() {
+//         // projectsMenu.rotate= (Math.sin(2*Math.PI))
+//         const from = new THREE.Vector3(0, 6, 0)
+//         const target = new THREE.Vector3(0, 2, 0)
+//         const scale = new THREE.Vector3(0.8, 0.8, 0.8)
+//         const rotation = 10 * Math.PI
+//     const animateMenu = gsap.timeline();
+//     animateMenu.fromTo(projectsMenu.material,
+//         {opacity: 0},
+//         {opacity: 1, duration: 1},
+//         0);
+//     animateMenu.fromTo(projectsMenu.position,
+//         {y: from.y},
+//         {y: target.y, duration: 1},
+//         0);
+//     animateMenu.fromTo(projectsMenu.rotation,
+//         {y: 0, duration: 1},
+//         {y: rotation, duration: 1.2, ease: "elastic.out(1, 0.3)"},
+//         0)
+//     animateMenu.fromTo(tableGroup.position,
+//         {y: 0}, {y: -1, duration: 1},
+//         0)
+//     animateMenu.fromTo(tableGroup.scale,
+//         {x: 1, y: 1, z: 1},
+//         {x: scale.x, y: scale.y, z: scale.z, duration: 1},
+//         0)
+//     if (projectsMenuOpened === false) {
+//         // projectsMenu.material.opacity = 0.5
+//        animateMenu.play()
+//         projectsMenuOpened = true
+//         projectsMenu.visible = true
+//     }
+//     else if (projectsMenuOpened === true) {
+//         animateMenu.progress(1).reverse()
 
-        setTimeout(() => projectsMenu.visible = false, 1000 )
-        projectsMenuOpened = false
-    }
-}
+//         setTimeout(() => projectsMenu.visible = false, 1000 )
+//         projectsMenuOpened = false
+//     }
+// }
 
 // document.addEventListener("click", () => {
 //   const target = new THREE.Vector3(-2, -4, 0)
@@ -377,9 +279,9 @@ centerLightGroup.add(centerLight, 'intensity').min(0).max(1).step(0.001)
 centerLightGroup.add(centerLight, 'distance').min(0).max(50).step(1)
 centerLightGroup.add(centerLight, 'power').min(0).max(50).step(1)
 
-const roomWalls = roomMats.addFolder('walls material')
-roomWalls.add(roomWallMaterial, 'aoMapIntensity').min(0).max(10).step(0.01)
-roomWalls.add(roomWallMaterial, 'displacementScale').min(0).max(1).step(0.01)
+// const roomWalls = roomMats.addFolder('walls material')
+// roomWalls.add(roomWallMaterial, 'aoMapIntensity').min(0).max(10).step(0.01)
+// roomWalls.add(roomWallMaterial, 'displacementScale').min(0).max(1).step(0.01)
 
 
 // endregion
